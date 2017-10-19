@@ -4,16 +4,15 @@
  * requires snmp extend agent script from librenms-agent
  */
 
-$raspberry = snmp_get($device, 'HOST-RESOURCES-MIB::hrSystemInitialLoadParameters.0', '-Osqnv');
+use LibreNMS\Config;
 
-if (preg_match("/(bcm).+(boardrev)/", $raspberry)) {
+$sensor_oid = ".1.3.6.1.4.1.8072.1.3.2.4.1.2.9.114.97.115.112.98.101.114.114.121.1";
+$value = snmp_get($device, $sensor_oid, '-Oqve');
+$value = trim($value, '"');
+if (is_numeric($value)) {
     $sensor_type = "raspberry_temp";
-    $sensor_oid = ".1.3.6.1.4.1.8072.1.3.2.4.1.2.9.114.97.115.112.98.101.114.114.121.1";
     $descr = "CPU Temp";
-    $value = snmp_get($device, $sensor_oid, '-Oqve');
-    if (is_numeric($value)) {
-        discover_sensor($valid['sensor'], 'temperature', $device, $sensor_oid, 1, $sensor_type, $descr, 1, 1, null, null, null, null, $value);
-    }
+    discover_sensor($valid['sensor'], 'temperature', $device, $sensor_oid, 1, $sensor_type, $descr, 1, 1, null, null, null, null, $value);
 }
 
 if (starts_with($sysObjectId, '.1.3.6.1.4.1.232.')) {
@@ -28,7 +27,7 @@ if (starts_with($sysObjectId, '.1.3.6.1.4.1.232.')) {
             $temperature_id = $split_oid[(count($split_oid) - 2)] . '.' . $split_oid[(count($split_oid) - 1)];
 
             $descr_oid = ".1.3.6.1.4.1.232.6.2.6.8.1.3.$temperature_id";
-            $descr = snmp_get($device, $descr_oid, '-Oqnv', 'CPQHLTH-MIB');
+            $descr = snmp_get($device, $descr_oid, '-Oqnv', 'CPQHLTH-MIB', 'hp');
 
             $temperature_oid = ".1.3.6.1.4.1.232.6.2.6.8.1.4.$temperature_id";
             $temperature = snmp_get($device, $temperature_oid, '-Oqv', '');
@@ -58,4 +57,4 @@ if (preg_match("/(Linux).+(ntc)/", $chip)) {
     discover_sensor($valid['sensor'], 'temperature', $device, $oid.$index, $index, $sensor_type, $descr, '1', '1', $lowlimit, $lowwarnlimit, $warnlimit, $limit, $value);
 }
 
-include_once $config['install_dir'] . '/includes/discovery/sensors/temperature/supermicro.inc.php';
+include_once Config::get('install_dir') . '/includes/discovery/sensors/temperature/supermicro.inc.php';

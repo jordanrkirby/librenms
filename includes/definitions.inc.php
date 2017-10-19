@@ -377,12 +377,27 @@ $config['graph_types']['device']['screenos_sessions']['order']     = '0';
 $config['graph_types']['device']['screenos_sessions']['descr']     = 'Active Sessions';
 
 //PAN OS Graphs
-$config['graph_types']['device']['panos_sessions']['section']      = 'firewall';
-$config['graph_types']['device']['panos_sessions']['order']        = '0';
-$config['graph_types']['device']['panos_sessions']['descr']        = 'Active Sessions';
-$config['graph_types']['device']['panos_activetunnels']['section'] = 'firewall';
-$config['graph_types']['device']['panos_activetunnels']['order']   = '1';
-$config['graph_types']['device']['panos_activetunnels']['descr']   = 'Active GlobalProtect Tunnels';
+$config['graph_types']['device']['panos_sessions']['section']           = 'firewall';
+$config['graph_types']['device']['panos_sessions']['order']             = '0';
+$config['graph_types']['device']['panos_sessions']['descr']             = 'Active Sessions';
+$config['graph_types']['device']['panos_sessions_tcp']['section']       = 'firewall';
+$config['graph_types']['device']['panos_sessions_tcp']['order']         = '0';
+$config['graph_types']['device']['panos_sessions_tcp']['descr']         = 'Active TCP Sessions';
+$config['graph_types']['device']['panos_sessions_udp']['section']       = 'firewall';
+$config['graph_types']['device']['panos_sessions_udp']['order']         = '0';
+$config['graph_types']['device']['panos_sessions_udp']['descr']         = 'Active UDP Sessions';
+$config['graph_types']['device']['panos_sessions_icmp']['section']      = 'firewall';
+$config['graph_types']['device']['panos_sessions_icmp']['order']        = '0';
+$config['graph_types']['device']['panos_sessions_icmp']['descr']        = 'Active ICMP Sessions';
+$config['graph_types']['device']['panos_sessions_ssl']['section']       = 'firewall';
+$config['graph_types']['device']['panos_sessions_ssl']['order']         = '0';
+$config['graph_types']['device']['panos_sessions_ssl']['descr']         = 'Active SSL Proxy Sessions';
+$config['graph_types']['device']['panos_sessions_sslutil']['section']   = 'firewall';
+$config['graph_types']['device']['panos_sessions_sslutil']['order']     = '0';
+$config['graph_types']['device']['panos_sessions_sslutil']['descr']     = 'Active SSL Proxy Utilization';
+$config['graph_types']['device']['panos_activetunnels']['section']      = 'firewall';
+$config['graph_types']['device']['panos_activetunnels']['order']        = '0';
+$config['graph_types']['device']['panos_activetunnels']['descr']        = 'Active GlobalProtect Tunnels';
 
 //Pulse Secure Graphs
 $config['graph_types']['device']['pulse_users']['section']         = 'firewall';
@@ -600,6 +615,11 @@ $config['graph_types']['device']['riverbed_passthrough']['section'] = 'network';
 $config['graph_types']['device']['riverbed_passthrough']['order'] = 3;
 $config['graph_types']['device']['riverbed_passthrough']['descr'] = 'Bandwidth Passthrough';
 
+//mikrotik specific graphs
+$config['graph_types']['device']['routeros_leases']['section'] = 'network';
+$config['graph_types']['device']['routeros_leases']['order'] = 0;
+$config['graph_types']['device']['routeros_leases']['descr'] = 'DHCP Lease Count';
+
 // Device Types
 $i = 0;
 $config['device_types'][$i]['text'] = 'Servers';
@@ -689,6 +709,8 @@ if (isset($_SERVER['HTTPS'])) {
 // Set some times needed by loads of scripts (it's dynamic, so we do it here!)
 $config['time']['now']      = time();
 $config['time']['now']     -= ($config['time']['now'] % 300);
+$config['time']['onehour'] = ($config['time']['now'] - 3600);
+// time() - (1 * 60 * 60);
 $config['time']['fourhour'] = ($config['time']['now'] - 14400);
 // time() - (4 * 60 * 60);
 $config['time']['sixhour'] = ($config['time']['now'] - 21600);

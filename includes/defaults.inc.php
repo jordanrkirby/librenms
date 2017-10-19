@@ -30,7 +30,7 @@ $config['temp_dir']    = '/tmp';
 $config['log_dir']     = $config['install_dir'].'/logs';
 
 // MySQL extension to use
-$config['db']['extension']       = 'mysqli';//mysql and mysqli available
+$config['db']['extension']       = 'mysqli';
 // MySQL Debug level
 $config['mysql_log_level']       = 'ERROR';
 
@@ -42,7 +42,7 @@ $config['db_socket']             = null;
 $config['own_hostname'] = 'localhost';
 
 // Location of executables
-$config['fping']                    = '/usr/bin/fping';
+$config['fping']                    = 'fping';
 $config['fping6']                   = 'fping6';
 $config['fping_options']['retries'] = 3;
 $config['fping_options']['timeout'] = 500;
@@ -51,6 +51,7 @@ $config['fping_options']['millisec'] = 200;
 $config['snmpwalk']                  = '/usr/bin/snmpwalk';
 $config['snmpget']                   = '/usr/bin/snmpget';
 $config['snmpbulkwalk']              = '/usr/bin/snmpbulkwalk';
+$config['snmptranslate']             = '/usr/bin/snmptranslate';
 $config['whois']          = '/usr/bin/whois';
 $config['ping']           = '/bin/ping';
 $config['mtr']            = '/usr/bin/mtr';
@@ -230,7 +231,8 @@ $config['uptime_warning'] = '84600';
 // Cosmetics
 $config['rrdgraph_def_text']  = '-c BACK#EEEEEE00 -c SHADEA#EEEEEE00 -c SHADEB#EEEEEE00 -c FONT#000000 -c CANVAS#FFFFFF00 -c GRID#a5a5a5';
 $config['rrdgraph_def_text'] .= ' -c MGRID#FF9999 -c FRAME#5e5e5e -c ARROW#5e5e5e -R normal';
-$config['rrdgraph_real_95th'] = false;
+$config['rrdgraph_real_percentile'] = false;
+$config['percentile_value'] = 95;
 // Set to TRUE if you want to display the 95% based on the highest value. (aka real 95%)
 $config['overlib_defaults'] = ",FGCOLOR,'#ffffff', BGCOLOR, '#e5e5e5', BORDER, 5, CELLPAD, 4, CAPCOLOR, '#555555', TEXTCOLOR, '#3e3e3e'";
 $config['web_mouseover']    = true;
@@ -353,6 +355,28 @@ $config['network_map_legend'] = array(
     '90'  => '#ff6600',
     '100' => '#ff0000',
 );
+
+// Default mini graph time options:
+$config['graphs']['mini']['widescreen'] = array(
+    'sixhour' => '6 Hours',
+    'day' => '24 Hours',
+    'twoday' => '48 Hours',
+    'week' => 'One Week',
+    'twoweek' => 'Two Weeks',
+    'month' => 'One Month',
+    'twomonth' => 'Two Months',
+    'year' => 'One Year',
+    'twoyear' => 'Two Years',
+);
+
+$config['graphs']['mini']['normal'] = array(
+    'day' => '24 Hours',
+    'week' => 'One Week',
+    'month' => 'One Month',
+    'year' => 'One Year',
+);
+
+$config['graphs']['row']['normal'] = $config['graphs']['mini']['widescreen'];
 
 // Network Map Items
 $config['network_map_items'] = array('xdp','mac');
@@ -597,6 +621,7 @@ $config['auth_ldap_port']   = 389;
 $config['auth_ldap_prefix'] = 'uid=';
 $config['auth_ldap_suffix'] = ',ou=People,dc=example,dc=com';
 $config['auth_ldap_group']  = 'cn=groupname,ou=groups,dc=example,dc=com';
+$config['auth_ldap_uid_attribute'] = 'uidnumber';
 
 $config['auth_ldap_attr']['uid'] = "uid";
 $config['auth_ldap_groupbase']                  = 'ou=group,dc=example,dc=com';
@@ -783,7 +808,7 @@ $config['discovery_modules']['ntp']                  = 1;
 $config['discovery_modules']['loadbalancers']        = 0;
 $config['discovery_modules']['mef']                  = 0;
 $config['discovery_modules']['wireless']             = 1;
-
+$config['discovery_modules']['fdb-table']            = 1;
 // Enable daily updates
 $config['update'] = 1;
 
@@ -908,3 +933,17 @@ $config['xirrus_disable_stations']  = false;
 
 // Graphite default port
 $config['graphite']['port']         = 2003;
+
+// Whether to enable secure cookies. Setting this to true enable secure cookies
+// and only send them over HTTPS. Setting this to false will send cookies over
+// HTTP and HTTPS, but they will be insecure. Setting this to $_SERVER["HTTPS"]
+// will send secure cookies when the site is being accessed over HTTPS, and
+// send insecure cookies when the site is being accessed over HTTP.
+$config['secure_cookies'] = $_SERVER["HTTPS"];
+
+// API config
+$config['api']['cors']['enabled'] = false;
+$config['api']['cors']['origin'] = '*';
+$config['api']['cors']['maxage'] = '86400';
+$config['api']['cors']['allowmethods'] = array('POST', 'GET', 'PUT', 'DELETE', 'PATCH');
+$config['api']['cors']['allowheaders'] = array('Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Auth-Token');

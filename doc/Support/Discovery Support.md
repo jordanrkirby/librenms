@@ -46,7 +46,7 @@ With:
 
 `33  */6   * * *   librenms    /opt/librenms/discovery-wrapper.php 1 >> /dev/null 2>&1`
 
-The default is for discovery wrapper to only use 1 thread so that it mimics the current behaviour. However if your 
+The default is for discovery wrapper to only use 1 thread so that it mimics the current behaviour. However if your
 system is powerful enough and the devices can cope then you can increase the thread count from 1 to a value of your
 choosing.
 
@@ -85,7 +85,6 @@ $config['discovery_modules']['libvirt-vminfo']            = 1;
 $config['discovery_modules']['toner']                     = 1;
 $config['discovery_modules']['ucd-diskio']                = 1;
 $config['discovery_modules']['services']                  = 1;
-$config['discovery_modules']['charge']                    = 1;
 ```
 
 #### OS based Discovery config
@@ -200,23 +199,3 @@ The output will contain:
 DB Updates
 
 SNMP Response
-
-### SNMP Scan
-
-Apart from the aforementioned Auto-Discovery options, LibreNMS is also able to proactively scan a network for SNMP-enabled devices using the configured version/credentials.
-
-Using the SNMP-Scanner may take a long time to finish depending on the size of your network. Tests have shown that a sparsely-populated /24 is scanned within 2 Minutes whereas a sparsely populated /16 will take about 11 Hours.
-
-If possible, divide your network into smaller subnets and scan these subnets instead. You can use an utility like the GNU Screen or tmux to avoid aborting the scan when logging out of your Shell. You can run several instances of the SNMP-Scanner simultaneously.
-
-To run the SNMP-Scanner you need to execute the `snmp-scan.php` from within your LibreNMS installation directory.
-
-Here the script's help-page for reference:
-```text
-Usage: ./snmp-scan.php -r <CIDR_Range> [-d] [-l] [-h]
-  -r CIDR_Range     CIDR noted IP-Range to scan
-                    Example: 192.168.0.0/24
-  -d                Enable Debug
-  -l                Show Legend
-  -h                Print this text
-```

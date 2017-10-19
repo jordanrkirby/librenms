@@ -1000,6 +1000,27 @@ echo '<div id="telegram_chat_id_template" class="hide">
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#opsgenie_transport_expand"><i class="fa fa-caret-down"></i> OpsGenie</a> <button name="test-alert" id="test-alert" type="button" data-transport="opsgenie" class="btn btn-primary btn-xs pull-right">Test transport</button>
+                </h4>
+        </div>
+        <div id="opsgenie_transport_expand" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="form-group has-feedback">
+                    <label for="opsgenie" class="col-sm-4 control-label">OpsGenie URL </label>
+                    <div data-toggle="tooltip" title="' . $config_groups['alert.transports.opsgenie.url']['config_descr'] . '" class="toolTip fa fa-question-circle"></div>
+                    <div class="col-sm-4">
+                        <input id="opsgenie" class="form-control" type="text" name="global-config-input" value="' . $config_groups['alert.transports.opsgenie.url']['config_value'] . '" data-config_id="' . $config_groups['alert.transports.opsgenie.url']['config_id'] . '">
+                        <span class="form-control-feedback">
+                            <i class="fa" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    </div>
+                </div>
+            </div>
         </div>';
 
 $clickatell   = get_config_by_name('alert.transports.clickatell.token');
@@ -1354,6 +1375,72 @@ echo '
                 </div>
             </div>
         </div>';
+// Jira Transport Section
+$jira_prj     = get_config_by_name('alert.transports.jira.prjkey');
+$jira_url    = get_config_by_name('alert.transports.jira.url');
+$jira_username   = get_config_by_name('alert.transports.jira.username');
+$jira_password   = get_config_by_name('alert.transports.jira.password');
+$jira_issuetype = get_config_by_name('alert.transports.jira.issuetype');
+echo '
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#jira_transport_expand"><i class="fa fa-caret-down"></i> Jira transport</a> <button name="test-alert" id="test-alert" type="button" data-transport="jira" class="btn btn-primary btn-xs pull-right">Test transport</button>
+                </h4>
+            </div>
+            <div id="jira_transport_expand" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="form-group has-feedback">
+                        <label for="jira_prj" class="col-sm-4 control-label">Jira Project Key </label>
+                        <div class="col-sm-4">
+                            <input id="jira_prj" class="form-control" type="text" name="global-config-input" value="'.$jira_prj['config_value'].'" data-config_id="'.$jira_prj['config_id'].'">
+                            <span class="form-control-feedback">
+    <i class="fa" aria-hidden="true"></i>
+</span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label for="jira_url" class="col-sm-4 control-label">Jira URL </label>
+                        <div class="col-sm-4">
+                            <input id="jira_url" class="form-control" type="url" name="global-config-input" value="'.$jira_url['config_value'].'" data-config_id="'.$jira_url['config_id'].'">
+                            <span class="form-control-feedback">
+    <i class="fa" aria-hidden="true"></i>
+</span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label for="jira_issuetype" class="col-sm-4 control-label">Jira Issue Type </label>
+                        <div class="col-sm-4">
+                            <input id="jira_issuetype" class="form-control" type="text" name="global-config-input" value="'.$jira_issuetype['config_value'].'" data-config_id="'.$jira_issuetype['config_id'].'">
+                            <span class="form-control-feedback">
+    <i class="fa" aria-hidden="true"></i>
+</span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label for="jira_username" class="col-sm-4 control-label">Jira Username </label>
+                        <div class="col-sm-4">
+                            <input id="jira_username" class="form-control" type="text" name="global-config-input" value="'.$jira_username['config_value'].'" data-config_id="'.$jira_username['config_id'].'">
+                            <span class="form-control-feedback">
+    <i class="fa" aria-hidden="true"></i>
+</span>
+                        </div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <label for="jira_password" class="col-sm-4 control-label">Jira Password </label>
+                        <div class="col-sm-4">
+                            <input id="jira_password" class="form-control" type="password" name="global-config-input" value="'.$jira_password['config_value'].'" data-config_id="'.$jira_password['config_id'].'">
+                            <span class="form-control-feedback">
+    <i class="fa" aria-hidden="true"></i>
+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>';
+
+// End Jira Transport Section
+
 $es_host     = get_config_by_name('alert.transports.elasticsearch.es_host');
 $es_port    = get_config_by_name('alert.transports.elasticsearch.es_port');
 $es_index    = get_config_by_name('alert.transports.elasticsearch.es_index');
@@ -1409,6 +1496,7 @@ echo '
     </form>
 </div>
 ';
+
 ?>
 
 <script>
@@ -1485,7 +1573,7 @@ echo '
                 }
             },
             error: function(){
-                $("#message").html('<div class="alert alert-info">Error creating config item</div>');
+                $("#message").html('<div class="alert alert-danger">Error creating config item</div>');
             }
         });
     });// End Add API config
@@ -1521,7 +1609,7 @@ echo '
                 }
             },
             error: function(){
-                $("#message").html('<div class="alert alert-info">Error creating config item</div>');
+                $("#message").html('<div class="alert alert-danger">Error creating config item</div>');
             }
         });
     });// End Add Slack config
@@ -1557,7 +1645,7 @@ echo '
                 }
             },
             error: function(){
-                $("#message").html('<div class="alert alert-info">Error creating config item</div>');
+                $("#message").html('<div class="alert alert-danger">Error creating config item</div>');
             }
         });
     });// End Add Slack config
@@ -1597,7 +1685,7 @@ echo '
                 }
             },
             error: function(){
-                $("#message").html('<div class="alert alert-info">Error creating config item</div>');
+                $("#message").html('<div class="alert alert-danger">Error creating config item</div>');
             }
         });
     });// End Add Hipchat config
@@ -1636,7 +1724,7 @@ echo '
                 }
             },
             error: function(){
-                $("#message").html('<div class="alert alert-info">Error creating config item</div>');
+                $("#message").html('<div class="alert alert-danger">Error creating config item</div>');
             }
         });
     });// End Add Pushover config
@@ -1672,7 +1760,7 @@ echo '
                 }
             },
             error: function(){
-                $("#message").html('<div class="alert alert-info">Error creating config item</div>');
+                $("#message").html('<div class="alert alert-danger">Error creating config item</div>');
             }
         });
     });// End Add Boxcar config
@@ -1708,7 +1796,7 @@ echo '
                 }
             },
             error: function(){
-                $("#message").html('<div class="alert alert-info">Error creating config item</div>');
+                $("#message").html('<div class="alert alert-danger">Error creating config item</div>');
             }
         });
     });// End Add Telegram config
@@ -1729,7 +1817,7 @@ echo '
                 }
             },
             error: function () {
-                $("#message").html('<div class="alert alert-info">An error occurred.</div>');
+                $("#message").html('<div class="alert alert-danger">An error occurred.</div>');
             }
         });
     });// End delete api config
@@ -1750,7 +1838,7 @@ echo '
                 }
             },
             error: function () {
-                $("#message").html('<div class="alert alert-info">An error occurred.</div>');
+                $("#message").html('<div class="alert alert-danger">An error occurred.</div>');
             }
         });
     });// End delete slack config
@@ -1771,7 +1859,7 @@ echo '
                 }
             },
             error: function () {
-                $("#message").html('<div class="alert alert-info">An error occurred.</div>');
+                $("#message").html('<div class="alert alert-danger">An error occurred.</div>');
             }
         });
     });// End delete rocket config
@@ -1792,7 +1880,7 @@ echo '
                 }
             },
             error: function () {
-                $("#message").html('<div class="alert alert-info">An error occurred.</div>');
+                $("#message").html('<div class="alert alert-danger">An error occurred.</div>');
             }
         });
     });// End delete hipchat config
@@ -1813,7 +1901,7 @@ echo '
                 }
             },
             error: function () {
-                $("#message").html('<div class="alert alert-info">An error occurred.</div>');
+                $("#message").html('<div class="alert alert-danger">An error occurred.</div>');
             }
         });
     });// End delete pushover config
@@ -1834,7 +1922,7 @@ echo '
                 }
             },
             error: function () {
-                $("#message").html('<div class="alert alert-info">An error occurred.</div>');
+                $("#message").html('<div class="alert alert-danger">An error occurred.</div>');
             }
         });
     });// End delete Boxcar config
@@ -1856,7 +1944,7 @@ echo '
                 }
             },
             error: function () {
-                $("#message").html('<div class="alert alert-info">An error occurred.</div>');
+                $("#message").html('<div class="alert alert-danger">An error occurred.</div>');
             }
         });
     });// End delete Telegram config
@@ -1889,10 +1977,11 @@ echo '
                 }
             },
             error: function () {
-                $("#message").html('<div class="alert alert-info">An error occurred.</div>');
+                $("#message").html('<div class="alert alert-danger">An error occurred.</div>');
             }
         });
     });
+
     $(document).on('blur', 'textarea[name="global-config-textarea"]', function(event) {
         event.preventDefault();
         var $this = $(this);
@@ -1922,7 +2011,7 @@ echo '
                 }
             },
             error: function () {
-                $("#message").html('<div class="alert alert-info">An error occurred.</div>');
+                $("#message").html('<div class="alert alert-danger">An error occurred.</div>');
             }
         });
     });

@@ -272,9 +272,9 @@ if (device_permitted($vars['device']) || $permitted_by_port) {
                 </li>';
         }
 
-        echo '<li role="presentation" '.$select['map'].'>
-                <a href="'.generate_device_url($device, array('tab' => 'map')).'">
-                  <i class="fa fa-sitemap fa-lg icon-theme"  aria-hidden="true"></i> Map
+        echo '<li role="presentation" '.$select['neighbours'].'>
+                <a href="'.generate_device_url($device, array('tab' => 'neighbours')).'">
+                  <i class="fa fa-sitemap fa-lg icon-theme"  aria-hidden="true"></i> Neighbours
                 </a>
               </li>';
 
@@ -397,7 +397,12 @@ if (device_permitted($vars['device']) || $permitted_by_port) {
                     $nfsensuffix = $config['nfsen_suffix'];
                 }
 
-                $basefilename_underscored = preg_replace('/\./', $config['nfsen_split_char'], $device['hostname']);
+                if (isset($config['nfsen_split_char']) && !empty($config['nfsen_split_char'])) {
+                    $basefilename_underscored = preg_replace('/\./', $config['nfsen_split_char'], $device['hostname']);
+                } else {
+                    $basefilename_underscored = $device['hostname'];
+                }
+
                 $nfsen_filename           = preg_replace('/'.$nfsensuffix.'/', '', $basefilename_underscored);
                 if (is_file($nfsenrrds.$nfsen_filename.'.rrd')) {
                     $nfsen_rrd_file = $nfsenrrds.$nfsen_filename.'.rrd';

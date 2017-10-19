@@ -26,7 +26,11 @@ source: Support/FAQ.md
  - [Why are some of my disks not showing?](#faq26)
  - [Why are my disks reporting an incorrect size?](#faq27)
  - [What is the Difference between Disable Device and Ignore a Device?](#faq28)
-
+ - [Why can't Normal and Global View users see Oxidized?](#faq29)
+ - [What is the Demo User for?](#faq30)
+ - [Why does modifying 'Default Alert Template' fail?](#faq31)
+ - [Why would alert un-mute itself](#faq32)
+ 
 ### Developing
  - [How do I add support for a new OS?](#faq8)
  - [What information do you need to add a new OS?](#faq20)
@@ -214,12 +218,12 @@ $config['device_traffic_iftype'][] = '/ppp/';
 ```
 #### <a name="faq24"> How do I move my LibreNMS install to another server?</a>
 
-If you are moving from one CPU architecture to another then you will need to dump the rrd files and re-create them. If you are in 		
-this scenario then you can use [Dan Brown's migration scripts](https://vlan50.com/2015/04/17/migrating-from-observium-to-librenms/).		
-		
-If you are just moving to another server with the same CPU architecture then the following steps should be all that's needed:		
-		
-    - Install LibreNMS as per our normal documentation, you don't need to run through the web installer or building the sql schema.		
+If you are moving from one CPU architecture to another then you will need to dump the rrd files and re-create them. If you are in     
+this scenario then you can use [Dan Brown's migration scripts](https://vlan50.com/2015/04/17/migrating-from-observium-to-librenms/).    
+    
+If you are just moving to another server with the same CPU architecture then the following steps should be all that's needed:   
+    
+    - Install LibreNMS as per our normal documentation, you don't need to run through the web installer or building the sql schema.   
     - Stop cron by commenting out all lines in `/etc/cron.d/librenms`
     - Dump the MySQL database `librenms` and import this into your new server.
     - Copy the `rrd/` folder to the new server.
@@ -332,3 +336,18 @@ If you want to pull any new updates provided by f0o's branch then whilst you are
 ```bash
 git pull f0o issue-1337
 ```
+### <a name="faq29"> Why can't Normal and Global View users see Oxidized?</a> 
+Configs can often contain sensitive data. Because of that only global admins can see configs.
+
+### <a name="faq30"> What is the Demo User for?</a> 
+Demo users allow full access except adding/editing users and deleting devices and can't change passwords.
+
+### <a name="faq31"> Why does modifying 'Default Alert Template' fail?</a>
+This template's entry could be missing in the database. Please run:
+
+```bash
+mysql -u librenms -p < sql-schema/202.sql
+```
+### <a name="faq32"> Why would alert un-mute itself?</a> 
+If alert un-mutes itself then it most likely means that the alert cleared and is then triggered again.
+Please review eventlog as it will tell you in there.

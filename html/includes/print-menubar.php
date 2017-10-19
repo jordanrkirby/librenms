@@ -126,6 +126,7 @@ if (dbFetchCell("SELECT 1 from `packages` LIMIT 1")) {
             <li><a href="<?php echo(generate_url(array('page'=>'search','search'=>'ipv6'))); ?>"><i class="fa fa-search fa-fw fa-lg" aria-hidden="true"></i> IPv6 Address</a></li>
             <li><a href="<?php echo(generate_url(array('page'=>'search','search'=>'mac'))); ?>"><i class="fa fa-search fa-fw fa-lg" aria-hidden="true"></i> MAC Address</a></li>
             <li><a href="<?php echo(generate_url(array('page'=>'search','search'=>'arp'))); ?>"><i class="fa fa-search fa-fw fa-lg" aria-hidden="true"></i> ARP Tables</a></li>
+            <li><a href="<?php echo(generate_url(array('page'=>'search','search'=>'fdb'))); ?>"><i class="fa fa-search fa-fw fa-lg" aria-hidden="true"></i> FDB Tables</a></li>
 <?php
 if (is_module_enabled('poller', 'mib')) {
 ?>
@@ -373,7 +374,25 @@ if ($menu_sensors) {
     echo('            <li role="presentation" class="divider"></li>');
 }
 
-$icons = array('fanspeed'=>'tachometer','humidity'=>'tint','temperature'=>'thermometer-full','current'=>'bolt','frequency'=>'line-chart','power'=>'power-off','voltage'=>'bolt','charge'=>'battery-half','dbm'=>'sun-o', 'load'=>'percent', 'runtime' => 'hourglass-half', 'state'=>'bullseye','signal'=>'wifi', 'snr'=>'signal');
+$icons = array(
+    'fanspeed' => 'tachometer',
+    'humidity' => 'tint',
+    'temperature' => 'thermometer-full',
+    'current' => 'bolt',
+    'frequency' => 'line-chart',
+    'power' => 'power-off',
+    'voltage' => 'bolt',
+    'charge' => 'battery-half',
+    'dbm' => 'sun-o',
+    'load' => 'percent',
+    'runtime' => 'hourglass-half',
+    'state' => 'bullseye',
+    'signal' => 'wifi',
+    'snr' => 'signal',
+    'pressure' => 'thermometer-empty',
+    'cooling' => 'thermometer-full',
+    'airflow' => 'angle-double-right',
+);
 foreach (array('fanspeed','humidity','temperature','signal') as $item) {
     if (isset($menu_sensors[$item])) {
         echo('            <li><a href="health/metric='.$item.'/"><i class="fa fa-'.$icons[$item].' fa-fw fa-lg" aria-hidden="true"></i> '.nicecase($item).'</a></li>');
@@ -658,7 +677,7 @@ if ($_SESSION['userlevel'] >= '10') {
            <a href="#"><i class="fa fa-code fa-fw fa-lg" aria-hidden="true"></i> API</a>
            <ul class="dropdown-menu scrollable-menu">
              <li><a href="api-access/"><i class="fa fa-cog fa-fw fa-lg" aria-hidden="true"></i> API Settings</a></li>
-             <li><a href="http://docs.librenms.org/API/API-Docs/" target="_blank" rel="noopener"><i class="fa fa-book fa-fw fa-lg" aria-hidden="true"></i> API Docs</a></li>
+             <li><a href="https://docs.librenms.org/API/" target="_blank" rel="noopener"><i class="fa fa-book fa-fw fa-lg" aria-hidden="true"></i> API Docs</a></li>
            </ul>
            </li>
            <li role="presentation" class="divider"></li>');
