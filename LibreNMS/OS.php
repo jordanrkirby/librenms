@@ -26,6 +26,7 @@
 namespace LibreNMS;
 
 use LibreNMS\Device\WirelessSensor;
+use LibreNMS\Device\CollaborationSensor;
 use LibreNMS\Device\YamlDiscovery;
 use LibreNMS\Interfaces\Discovery\ProcessorDiscovery;
 use LibreNMS\OS\Generic;

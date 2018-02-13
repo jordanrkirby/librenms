@@ -132,11 +132,21 @@ if (device_permitted($vars['device']) || $permitted_by_port) {
                 </a>
                 </li>';
         }
+        
 
         if (dbFetchCell("SELECT 1 FROM access_points WHERE device_id = ?", array($device['device_id']))) {
             echo '<li role="presentation" '.$select['accesspoints'].'>
                 <a href="'.generate_device_url($device, array('tab' => 'accesspoints')).'">
                 <i class="fa fa-wifi fa-lg icon-theme"  aria-hidden="true"></i> Access Points
+                </a>
+                </li>';
+        }
+
+        
+        if (dbFetchCell('SELECT 1 FROM `collaboration_sensors` WHERE `device_id`=?', array($device['device_id']))) {
+            echo '<li role="presentation" '.$select['collaboration'].'>
+                <a href="'.generate_device_url($device, array('tab' => 'collaboration')).'">
+                <i class="fa fa-wifi fa-lg icon-theme"  aria-hidden="true"></i> Collaboration
                 </a>
                 </li>';
         }

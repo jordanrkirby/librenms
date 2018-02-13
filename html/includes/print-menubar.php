@@ -3,6 +3,7 @@
 
 use LibreNMS\Authentication\Auth;
 use LibreNMS\Device\WirelessSensor;
+use LibreNMS\Device\CollaborationSensor;
 use LibreNMS\ObjectCache;
 
 $service_status   = get_service_status();
@@ -459,6 +460,24 @@ if (!empty($valid_wireless_types)) {
 
     foreach ($valid_wireless_types as $type => $meta) {
         echo '<li><a href="wireless/metric='.$type.'/">';
+        echo '<i class="fa fa-'.$meta['icon'].' fa-fw fa-lg" aria-hidden="true"></i> ';
+        echo $meta['short'];
+        echo '</a></li>';
+    }
+
+    echo '</ul></li>';
+}
+
+$valid_collaboration_types = CollaborationSensor::getTypes(true);
+
+if (!empty($valid_collaboration_types)) {
+    echo '<li class="dropdown">
+          <a href="collaboration/" class="dropdown-toggle" data-hover="dropdown" data-toggle="dropdown">
+          <i class="fa fa-wifi fa-fw fa-lg fa-nav-icons hidden-md" aria-hidden="true"></i> <span class="hidden-sm">Collaboration</span></a>
+          <ul class="dropdown-menu">';
+
+    foreach ($valid_collaboration_types as $type => $meta) {
+        echo '<li><a href="collaboration/metric='.$type.'/">';
         echo '<i class="fa fa-'.$meta['icon'].' fa-fw fa-lg" aria-hidden="true"></i> ';
         echo $meta['short'];
         echo '</a></li>';

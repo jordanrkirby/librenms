@@ -162,6 +162,7 @@ foreach (dbFetchRows($sql, $param) as $device) {
     $port_count = dbFetchCell('SELECT COUNT(*) FROM `ports` WHERE `device_id` = ?', array($device['device_id']));
     $sensor_count = dbFetchCell('SELECT COUNT(*) FROM `sensors` WHERE `device_id` = ?', array($device['device_id']));
     $wireless_count = dbFetchCell('SELECT COUNT(*) FROM `wireless_sensors` WHERE `device_id` = ?', array($device['device_id']));
+    $collaboration_count = dbFetchCell('SELECT COUNT(*) FROM `collaboration_sensors` WHERE `device_id` = ?', array($device['device_id']));
 
     $actions = '
         <div class="container-fluid">
@@ -224,6 +225,13 @@ foreach (dbFetchRows($sql, $param) as $device) {
             $wireless_widget .= '<span><i class="fa fa-wifi fa-lg icon-theme"></i> ' . $wireless_count;
             $wireless_widget .= '</span></a> ';
             $metrics[] = $wireless_widget;
+        }
+
+        if ($collaboration_count) {
+            $collaboration_widget = '<a href="' . generate_device_url($device, array('tab' => 'collaboration')) . '">';
+            $collaboration_widget .= '<span><i class="fa fa-wifi fa-lg icon-theme"></i> ' . $collaboration_count;
+            $collaboration_widget .= '</span></a> ';
+            $metrics[] = $collaboration_widget;
         }
 
         $col_port = '<div class="device-table-metrics">';

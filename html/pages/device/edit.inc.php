@@ -42,6 +42,11 @@ if ($_SESSION['userlevel'] < '7') {
         $panes['wireless-sensors'] = 'Wireless Sensors';
     }
 
+    
+    if (dbFetchCell("SELECT COUNT(*) FROM `collaboration_sensors` WHERE `device_id` = ? AND `sensor_deleted`='0' LIMIT 1", array($device['device_id'])) > 0) {
+        $panes['collaboration-sensors'] = 'Collaboration Sensors';
+    }
+
     if (!$device['snmp_disable']) {
         $panes['storage']  = 'Storage';
         $panes['processors']  = 'Processors';
